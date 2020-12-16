@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Input</title>
+</head>
+<body>
+   <div>
+      <label>Add command</label>
+      <textarea id='command' cols="30" rows="10"></textarea>
+      <button id='submit-button'>Submit</button>
+   </div>
+   <script>
+      document.getElementById('submit-button').addEventListener('click',()=>{
+         const command = document.getElementById('command').value
+         const formatted = command.split(' ').join("%20")
+
+         const xhr = new XMLHttpRequest();
+         xhr.open('GET', `http://localhost:5000/mysql/post/${formatted}`);
+         xhr.send();
+      })
+   </script>
+</body>
+</html>
