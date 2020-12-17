@@ -3,7 +3,6 @@ import mysql.connector
 from flask import Flask, jsonify, make_response, render_template
 from flask_cors import CORS
 
-from functions import test_function
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -13,6 +12,7 @@ myDB = mysql.connector.connect(
     user=os.environ.get("user"),
     password=os.environ.get("password"),
     port=os.environ.get("port"),
+    database='db_project'
 )
 
 
@@ -47,7 +47,6 @@ def mysql_viz():
         for y in x:
             if y not in ["mysql", "information_schema", "performance_schema"]:
                 answer.append(y)
-
     return make_response(
         jsonify(
             {
@@ -99,7 +98,12 @@ def mysql_table(database, table):
 
 @app.route('/mysql/post/<command>/')
 def post_command(command):
-    my_cursor.execute(command)
-    for x in my_cursor:
-        print(x)
-    return command
+    try:
+        my_cursor.execute(command)
+        for x in my_cursor:
+            print(x)
+        print(command)
+        return command, 200
+    except Exception as err:
+        print(err.msg)
+        return err.msg, 400
