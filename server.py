@@ -12,7 +12,7 @@ myDB = mysql.connector.connect(
     user=os.environ.get("user"),
     password=os.environ.get("password"),
     port=os.environ.get("port"),
-    database='db_project'
+    database='PROJECT'
 )
 
 
